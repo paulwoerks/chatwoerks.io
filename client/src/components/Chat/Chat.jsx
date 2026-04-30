@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import sanitizeHtml from 'sanitize-html';
-import { Send } from 'react-feather';
 
 import { hasTouchSupport } from '@/utils/dom';
 
 import FileTransfer from '@/components/FileTransfer';
+import Icon from '@/components/Icon';
 
 const MAX_VISIBLE_LINES = 5;
 
@@ -258,7 +258,7 @@ export const Chat = React.forwardRef(function Chat(
           title={translations.sendButton || 'Send'}
           aria-label={translations.sendButton || 'Send'}
         >
-          <Send className={canSend ? '' : 'disabled'} />
+          <Icon name="send" size="md" className={canSend ? '' : 'disabled'} />
         </button>
       </div>
     </form>

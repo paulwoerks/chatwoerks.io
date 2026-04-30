@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { customAlphabet } from 'nanoid';
 
 const nanoidRoom = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 10);
-import { Info, Settings, Lock, Unlock, Menu, X, PlusCircle, Copy } from 'react-feather';
 import { Tooltip } from 'react-tooltip';
 import { useSafeState } from '@react-hookz/web/esnext';
+
+import Icon from '@/components/Icon';
 
 const Nav = ({ roomId, roomLocked, toggleLockRoom, openModal, iAmOwner, translations }) => {
   const [showCopyTooltip, setShowCopyTooltip] = useSafeState(false);
@@ -73,25 +75,24 @@ const Nav = ({ roomId, roomLocked, toggleLockRoom, openModal, iAmOwner, translat
             onClick={toggleLeftSidebar}
             aria-label="Toggle menu"
           >
-            <Menu />
+            <Icon name="menu" size="lg" />
           </button>
         </div>
 
-        <div className="nav-center">
-          <span className="room-label">room</span>
+        <div className={classNames('nav-center', { 'nav-center--locked': roomLocked })}>
           <button
             id="copy-room-url-button"
             className="btn btn-plain btn-link clipboard-trigger room-id ellipsis"
             onClick={handleCopy}
           >
-            {`/${roomId}`}
+            <span className="room-label">room</span>{`/${roomId}`}
           </button>
           <button
             className="btn btn-plain copy-btn"
             onClick={handleCopy}
             aria-label="Copy room link"
           >
-            <Copy />
+            <Icon name="content_copy" size="sm" />
           </button>
           {showCopyTooltip && (
             <Tooltip
@@ -114,7 +115,7 @@ const Nav = ({ roomId, roomLocked, toggleLockRoom, openModal, iAmOwner, translat
               style={{ color: lockColor }}
               aria-label={roomLocked ? 'Unlock room' : 'Lock room'}
             >
-              {roomLocked ? <Lock /> : <Unlock />}
+              <Icon name={roomLocked ? 'lock' : 'lock_open'} size="md" />
             </button>
             {showLockedTooltip && (
               <Tooltip
@@ -137,23 +138,26 @@ const Nav = ({ roomId, roomLocked, toggleLockRoom, openModal, iAmOwner, translat
               onClick={() => setShowSidebar(false)}
               aria-label="Close menu"
             >
-              <X />
+              <Icon name="close" size="md" />
             </button>
           </div>
           <ul className="sidebar-nav">
             <li>
               <button onClick={newRoom} className="btn btn-plain sidebar-link">
-                <PlusCircle /> <span>{translations.newRoomButton}</span>
+                <Icon name="add_circle" size="md" />
+                <span>{translations.newRoomButton}</span>
               </button>
             </li>
             <li>
               <button onClick={handleSettingsClick} className="btn btn-plain sidebar-link">
-                <Settings /> <span>{translations.settingsButton}</span>
+                <Icon name="settings" size="md" />
+                <span>{translations.settingsButton}</span>
               </button>
             </li>
             <li>
               <button onClick={handleAboutClick} className="btn btn-plain sidebar-link">
-                <Info /> <span>{translations.aboutButton}</span>
+                <Icon name="info" size="md" />
+                <span>{translations.aboutButton}</span>
               </button>
             </li>
           </ul>
