@@ -1,11 +1,53 @@
-$primary: #242424
-$secondary: #181818
-$inactive: #424242
-$body: #E7E7E7
-$md-gray: #999
-$dk-gray: #666
-$error: #d00000
-$link-blue: #7ac6ff
+// ============================================================
+// Dracula Theme Palette
+// https://draculatheme.com/contribute
+// ============================================================
+$dracula-bg:           #282a36
+$dracula-bg-darker:    #21222c
+$dracula-current-line: #44475a
+$dracula-fg:           #f8f8f2
+$dracula-comment:      #6272a4
+$dracula-cyan:         #8be9fd
+$dracula-green:        #50fa7b
+$dracula-orange:       #ffb86c
+$dracula-pink:         #ff79c6
+$dracula-purple:       #bd93f9
+$dracula-red:          #ff5555
+$dracula-yellow:       #f1fa8c
+
+// Semantic mappings
+$primary:   $dracula-bg
+$secondary: $dracula-bg-darker
+$inactive:  $dracula-current-line
+$body:      $dracula-fg
+$md-gray:   $dracula-comment
+$dk-gray:   $dracula-comment
+$error:     $dracula-red
+$link-blue: $dracula-cyan
+$accent:    $dracula-purple
+
+// CSS Custom Properties for use in CSS/SCSS modules
+:root
+  --dracula-bg:           #{$dracula-bg}
+  --dracula-bg-darker:    #{$dracula-bg-darker}
+  --dracula-current-line: #{$dracula-current-line}
+  --dracula-fg:           #{$dracula-fg}
+  --dracula-comment:      #{$dracula-comment}
+  --dracula-cyan:         #{$dracula-cyan}
+  --dracula-green:        #{$dracula-green}
+  --dracula-orange:       #{$dracula-orange}
+  --dracula-pink:         #{$dracula-pink}
+  --dracula-purple:       #{$dracula-purple}
+  --dracula-red:          #{$dracula-red}
+  --dracula-yellow:       #{$dracula-yellow}
+  --primary:              #{$dracula-bg}
+  --secondary:            #{$dracula-bg-darker}
+  --inactive:             #{$dracula-current-line}
+  --body:                 #{$dracula-fg}
+  --comment:              #{$dracula-comment}
+  --error:                #{$dracula-red}
+  --link:                 #{$dracula-cyan}
+  --accent:               #{$dracula-purple}
 
 .muted
   color: $dk-gray

@@ -97,6 +97,7 @@ const WithNewMessageNotification = ({
   ]);
 
   React.useEffect(() => {
+    if (!('Notification' in window)) return;
     switch (Notification.permission) {
       case 'granted':
         toggleNotificationAllowed(true);

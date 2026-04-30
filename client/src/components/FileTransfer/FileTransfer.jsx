@@ -133,7 +133,7 @@ export const FileTransfer = ({ sendEncryptedMessage }) => {
     <div className={`${classes.styles} icon file-transfer btn btn-link`}>
       <input placeholder="Choose a file..." type="file" name="fileUploader" id="fileInput" ref={fileInput} />
       <label htmlFor="fileInput">
-        <File color="#fff" />
+        <File color="#f8f8f2" />
       </label>
     </div>
   );

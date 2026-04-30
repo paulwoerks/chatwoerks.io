@@ -1,10 +1,10 @@
 .info {
-  color: white;
+  color: var(--dracula-cyan);
 }
 .warning {
-  color: yellow;
+  color: var(--dracula-yellow);
 }
 
 .danger {
-  color: gold;
+  color: var(--dracula-orange);
 }

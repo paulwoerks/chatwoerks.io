@@ -28,6 +28,7 @@ const Settings = ({
   };
 
   const handleNotificationToggle = () => {
+    if (!('Notification' in window)) return;
     Notification.requestPermission().then(permission => {
       if (permission === 'granted') {
         toggleNotificationEnabled(!notificationIsEnabled);

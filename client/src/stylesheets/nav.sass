@@ -9,14 +9,14 @@
   top: 0px
   width: 100%
   z-index: 5
-  background: black
+  background: $secondary
   .alert-banner
     display: flex
     align-items: center
     width: 100%
     height: 30px
     background: $error
-    color: white
+    color: $body
     padding: 5px 15px
     .icon
       margin-right: 3px
@@ -69,11 +69,11 @@ button.lock-room
   align-items: center
   color: $md-gray !important
   &:hover
-    color: white !important
+    color: $body !important
 
 .navbar-collapse
   padding: 0px 1rem
-  background: black
+  background: $secondary
 
 .members-menu
   position: relative
@@ -81,7 +81,7 @@ button.lock-room
     margin-right: 5px
   .member-list
     position: absolute
-    background: black
+    background: $secondary
     border-radius: 3px
     border: 1px solid $inactive
     padding: 15px
