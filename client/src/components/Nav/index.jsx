@@ -1,37 +1,62 @@
-import React from 'react';
+import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
-import { Info, Settings, PlusCircle, User, Users, Lock, Unlock, Star } from 'react-feather';
-import $ from 'jquery';
+import { Info, Settings, User, Lock, Unlock, Star, Menu, X, PlusCircle, Copy } from 'react-feather';
 import { Tooltip } from 'react-tooltip';
-import { useClickOutside, useSafeState } from '@react-hookz/web/esnext';
+import { useSafeState } from '@react-hookz/web/esnext';
 
-import logoImg from '@/img/logo.png';
 import Username from '@/components/Username';
 
 const Nav = ({ members, roomId, userId, roomLocked, toggleLockRoom, openModal, iAmOwner, translations }) => {
   const [showCopyTooltip, setShowCopyTooltip] = useSafeState(false);
   const [showLockedTooltip, setShowLockedTooltip] = useSafeState(false);
-  const [showMemberList, setShowMemberList] = useSafeState(false);
-  const userListRef = React.useRef(null);
+  const [showSidebar, setShowSidebar] = useSafeState(false);
+  const [showUsersSidebar, setShowUsersSidebar] = useSafeState(false);
   const roomUrl = `${window.location.origin}/${roomId}`;
 
-  useClickOutside(userListRef, () => {
-    setShowMemberList(false);
-  });
+  const liveColor = roomLocked ? '#dc3545' : '#28a745';
+
+  useEffect(() => {
+    document.body.classList.toggle('sidebar-left-open', showSidebar);
+  }, [showSidebar]);
+
+  useEffect(() => {
+    document.body.classList.toggle('sidebar-right-open', showUsersSidebar);
+  }, [showUsersSidebar]);
+
+  useEffect(() => {
+    return () => {
+      document.body.classList.remove('sidebar-left-open', 'sidebar-right-open');
+    };
+  }, []);
+
+  const toggleLeftSidebar = () => {
+    setShowSidebar(prev => {
+      if (!prev) setShowUsersSidebar(false);
+      return !prev;
+    });
+  };
+
+  const toggleRightSidebar = () => {
+    setShowUsersSidebar(prev => {
+      if (!prev) setShowSidebar(false);
+      return !prev;
+    });
+  };
 
   const newRoom = () => {
-    $('.navbar-collapse').collapse('hide');
+    setShowSidebar(false);
     window.open(`/${nanoid()}`);
   };
 
   const handleSettingsClick = () => {
-    $('.navbar-collapse').collapse('hide');
+    setShowSidebar(false);
     openModal('Settings');
   };
 
   const handleAboutClick = () => {
-    $('.navbar-collapse').collapse('hide');
+    setShowSidebar(false);
     openModal('About');
   };
 
@@ -55,111 +80,146 @@ const Nav = ({ members, roomId, userId, roomLocked, toggleLockRoom, openModal, i
   };
 
   return (
-    <nav className="navbar navbar-expand-md navbar-dark">
-      <div className="meta">
-        <img src={logoImg} alt="Darkwire" className="logo" />
-
-        <button
-          id="copy-room-url-button"
-          className="btn btn-plain btn-link clipboard-trigger room-id ellipsis"
-          onClick={handleCopy}
-        >
-          {`/${roomId}`}
-        </button>
-        {showCopyTooltip && (
-          <Tooltip
-            anchorId="copy-room-url-button"
-            content={translations.copyButtonTooltip}
-            place="bottom"
-            events={[]}
-            isOpen={true}
-          />
-        )}
-        <span className="lock-room-container">
+    <>
+      <nav className="navbar navbar-dark">
+        <div className="nav-left">
           <button
-            id="lock-room-button"
-            data-testid="lock-room-button"
-            onClick={handleToggleLock}
-            className="lock-room btn btn-link btn-plain"
+            className="btn btn-plain sidebar-toggle"
+            onClick={toggleLeftSidebar}
+            aria-label="Toggle menu"
           >
-            {roomLocked && <Lock />}
-            {!roomLocked && <Unlock className="muted" />}
+            <Menu />
           </button>
-          {showLockedTooltip && (
+        </div>
+
+        <div className="nav-center">
+          <span className="lock-room-container">
+            <button
+              id="lock-room-button"
+              data-testid="lock-room-button"
+              onClick={handleToggleLock}
+              className="lock-room btn btn-link btn-plain"
+            >
+              {roomLocked && <Lock />}
+              {!roomLocked && <Unlock className="muted" />}
+            </button>
+            {showLockedTooltip && (
+              <Tooltip
+                anchorId="lock-room-button"
+                content="You must be the owner to lock or unlock the room"
+                place="bottom"
+                events={[]}
+                isOpen={true}
+              />
+            )}
+          </span>
+          <span className="room-label">room</span>
+          <button
+            id="copy-room-url-button"
+            className="btn btn-plain btn-link clipboard-trigger room-id ellipsis"
+            onClick={handleCopy}
+          >
+            {`/${roomId}`}
+          </button>
+          <button
+            className="btn btn-plain copy-btn"
+            onClick={handleCopy}
+            aria-label="Copy room link"
+          >
+            <Copy />
+          </button>
+          {showCopyTooltip && (
             <Tooltip
-              anchorId="lock-room-button"
-              content="You must be the owner to lock or unlock the room"
+              anchorId="copy-room-url-button"
+              content={translations.copyButtonTooltip}
               place="bottom"
               events={[]}
               isOpen={true}
             />
           )}
-        </span>
-        <div className="members-menu" ref={userListRef}>
-          <button
-            className="btn btn-link btn-plain members-action"
-            title="Users"
-            onClick={() => setShowMemberList(prev => !prev)}
-          >
-            <Users className="users-icon" />
-          </button>
-          <span>{members.length}</span>
-
-          {showMemberList && (
-            <ul className="member-list">
-              {members.map((member, index) => (
-                <li key={`user-${index}`}>
-                  <Username username={member.username} />
-                  <span className="icon-container">
-                    {member.id === userId && (
-                      <span className="me-icon-wrap" title="Me">
-                        <User className="me-icon" />
-                      </span>
-                    )}
-                    {member.isOwner && (
-                      <span className="owner-icon-wrap">
-                        <Star className="owner-icon" title="Owner" />
-                      </span>
-                    )}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
-      </div>
 
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon" />
-      </button>
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav ml-auto">
-          <li className="nav-item">
-            <button className="btn btn-plain nav-link" onClick={newRoom} target="blank">
-              <PlusCircle /> <span>{translations.newRoomButton}</span>
+        <div className="nav-right">
+          <button
+            className="btn btn-link btn-plain live-indicator"
+            title="Users"
+            onClick={toggleRightSidebar}
+          >
+            <span className={`live-dot${roomLocked ? ' live-dot--locked' : ''}`} />
+            <span className="member-count" style={{ color: liveColor }}>
+              {members.length} online
+            </span>
+          </button>
+        </div>
+      </nav>
+
+      {createPortal(
+        <div className={`sidebar sidebar-left ${showSidebar ? 'sidebar-open' : ''}`}>
+          <div className="sidebar-header">
+            <button
+              className="btn btn-plain sidebar-close"
+              onClick={() => setShowSidebar(false)}
+              aria-label="Close menu"
+            >
+              <X />
             </button>
-          </li>
-          <li className="nav-item">
-            <button onClick={handleSettingsClick} className="btn btn-plain nav-link">
-              <Settings /> <span>{translations.settingsButton}</span>
+          </div>
+          <ul className="sidebar-nav">
+            <li>
+              <button onClick={newRoom} className="btn btn-plain sidebar-link">
+                <PlusCircle /> <span>{translations.newRoomButton}</span>
+              </button>
+            </li>
+            <li>
+              <button onClick={handleSettingsClick} className="btn btn-plain sidebar-link">
+                <Settings /> <span>{translations.settingsButton}</span>
+              </button>
+            </li>
+            <li>
+              <button onClick={handleAboutClick} className="btn btn-plain sidebar-link">
+                <Info /> <span>{translations.aboutButton}</span>
+              </button>
+            </li>
+          </ul>
+        </div>,
+        document.body
+      )}
+
+      {createPortal(
+        <div className={`sidebar sidebar-right ${showUsersSidebar ? 'sidebar-open' : ''}`}>
+          <div className="sidebar-header">
+            <span className="sidebar-title">Online</span>
+            <button
+              className="btn btn-plain sidebar-close"
+              onClick={() => setShowUsersSidebar(false)}
+              aria-label="Close users"
+            >
+              <X />
             </button>
-          </li>
-          <li className="nav-item">
-            <button onClick={handleAboutClick} className="btn btn-plain nav-link">
-              <Info /> <span>{translations.aboutButton}</span>
-            </button>
-          </li>
-        </ul>
-      </div>
-    </nav>
+          </div>
+          <ul className="sidebar-users">
+            {members.map((member, index) => (
+              <li key={`user-${index}`}>
+                <Username username={member.username} />
+                <span className="icon-container">
+                  {member.id === userId && (
+                    <span className="me-icon-wrap" title="Me">
+                      <User className="me-icon" />
+                    </span>
+                  )}
+                  {member.isOwner && (
+                    <span className="owner-icon-wrap">
+                      <Star className="owner-icon" title="Owner" />
+                    </span>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>,
+        document.body
+      )}
+    </>
   );
 };
 

@@ -1,15 +1,13 @@
 @import 'colors'
 
-.logo
-  height: 30px
-  margin-right: 10px
-
 .nav-container
   position: fixed
-  top: 0px
-  width: 100%
+  top: 0
+  left: 0
+  right: 0
   z-index: 5
   background: $secondary
+  transition: left 0.25s ease, right 0.25s ease
   .alert-banner
     display: flex
     align-items: center
@@ -21,83 +19,200 @@
     .icon
       margin-right: 3px
 
+body.sidebar-left-open .nav-container
+  left: 260px
+
+body.sidebar-right-open .nav-container
+  right: 260px
+
 nav
   border-bottom: 1px solid $inactive
-  .meta
-    padding-left: 1rem
-    height: 100%
-    align-items: center
-    display: flex
-    flex-basis: 80%
-@media(min-width: 768px)
-  nav .meta
-    flex-basis: 40%
-
-.navbar-toggler
-  border: 0px
 
 .navbar
-  padding-left: 0
-  padding-right: 0
-  padding-top: 0px
-  padding-bottom: 0px
   height: 55px
-  .room-id
-    margin-right: 15px
-    max-width: 95px
-
-ul.navbar-nav
-  li
-    padding-bottom: 10px
-    svg
-      width: 20px
-      margin-right: 10px
-    span
-      width: auto
-
-button.lock-room
-  margin-right: 15px
-  display: flex
-
-@media(min-width: 768px)
-  ul.navbar-nav li
-    margin-left: 25px
-    padding-bottom: 0px
-
-.nav-link
+  padding: 0 1rem
   display: flex
   align-items: center
-  color: $md-gray !important
-  &:hover
-    color: $body !important
-
-.navbar-collapse
-  padding: 0px 1rem
-  background: $secondary
-
-.members-menu
   position: relative
-  .members-action
-    margin-right: 5px
-  .member-list
-    position: absolute
-    background: $secondary
-    border-radius: 3px
-    border: 1px solid $inactive
-    padding: 15px
-    width: 175px
-    left: -5px
-    top: 35px
-    li
-      overflow: auto
-      height: 25px
-      .username
-        overflow: hidden
-        text-overflow: ellipsis
-        display: inline-block
-        width: 100px
-        white-space: nowrap
-      .icon-container
-        float: right
-      .me-icon, .owner-icon
-        width: 15px
+
+.nav-left
+  flex: 1
+  display: flex
+  align-items: center
+  justify-content: flex-start
+
+.nav-center
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 4px
+
+.nav-right
+  flex: 1
+  display: flex
+  align-items: center
+  justify-content: flex-end
+
+.room-label
+  color: $md-gray
+  font-size: 13px
+  margin-right: 2px
+  user-select: none
+
+.room-id
+  max-width: 120px
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+button.lock-room
+  display: flex
+  align-items: center
+  padding: 0 4px
+
+.copy-btn
+  display: flex
+  align-items: center
+  color: $md-gray
+  &:hover
+    color: $body
+  svg
+    width: 16px
+
+// Sidebars (non-modal: no overlay, page stays interactive)
+.sidebar
+  position: fixed
+  top: 0
+  height: 100%
+  width: 260px
+  background: $secondary
+  z-index: 200
+  transition: transform 0.25s ease
+
+.sidebar-left
+  left: 0
+  right: auto
+  border-right: 1px solid $inactive
+  transform: translateX(-100%)
+  &.sidebar-open
+    transform: translateX(0)
+
+.sidebar-right
+  right: 0
+  left: auto
+  border-left: 1px solid $inactive
+  transform: translateX(100%)
+  &.sidebar-open
+    transform: translateX(0)
+
+.sidebar-header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  height: 55px
+  padding: 0 15px
+  border-bottom: 1px solid $inactive
+
+.sidebar-title
+  color: $md-gray
+  font-size: 13px
+  font-weight: 600
+  text-transform: uppercase
+  letter-spacing: 0.5px
+
+.sidebar-close
+  display: flex
+  align-items: center
+  color: $md-gray
+  margin-left: auto
+  &:hover
+    color: $body
+
+.sidebar-nav
+  list-style: none
+  padding: 10px 0
+  margin: 0
+  li
+    padding: 2px 0
+
+.sidebar-link
+  display: flex
+  align-items: center
+  color: $md-gray
+  padding: 10px 20px
+  width: 100%
+  text-align: left
+  &:hover
+    color: $body
+  svg
+    width: 20px
+    margin-right: 12px
+
+.sidebar-toggle
+  display: flex
+  align-items: center
+  color: $md-gray
+  &:hover
+    color: $body
+
+// User list in right sidebar
+.sidebar-users
+  list-style: none
+  padding: 10px 0
+  margin: 0
+  li
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding: 8px 20px
+    .username
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+      max-width: 160px
+    .icon-container
+      display: flex
+      gap: 4px
+      flex-shrink: 0
+    .me-icon, .owner-icon
+      width: 15px
+
+// Pulsing live dot
+@keyframes livePulse
+  0%
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7)
+  70%
+    box-shadow: 0 0 0 6px rgba(40, 167, 69, 0)
+  100%
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0)
+
+@keyframes livePulseLocked
+  0%
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7)
+  70%
+    box-shadow: 0 0 0 6px rgba(220, 53, 69, 0)
+  100%
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0)
+
+.live-dot
+  width: 8px
+  height: 8px
+  border-radius: 50%
+  background: #28a745
+  display: inline-block
+  flex-shrink: 0
+  animation: livePulse 2s infinite
+  &.live-dot--locked
+    background: #dc3545
+    animation: livePulseLocked 2s infinite
+
+.live-indicator
+  display: flex
+  align-items: center
+  gap: 6px
+  color: $md-gray
+  &:hover
+    color: $body
+
+.member-count
+  font-size: 14px

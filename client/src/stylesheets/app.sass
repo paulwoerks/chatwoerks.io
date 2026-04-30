@@ -79,16 +79,6 @@ textarea
 .bottom-border
   border-bottom: 1px solid $inactive
 
-.sidebar
-  top: 0
-  bottom: 0
-  left: 0
-  z-index: 2
-  overflow-x: hidden
-  overflow-y: auto
-  border-right: 1px solid $inactive
-  background-color: $secondary
-
 .online-users
   font-size: 11px
   font-weight: bold
@@ -209,6 +199,13 @@ textarea
   display: flex
   flex-direction: column
   height: 100%
+  transition: margin-left 0.25s ease, margin-right 0.25s ease
+
+body.sidebar-left-open .main-chat
+  margin-left: 260px
+
+body.sidebar-right-open .main-chat
+  margin-right: 260px
 
 .zoom-overlay
   z-index: 420

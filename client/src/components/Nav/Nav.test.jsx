@@ -1,41 +1,14 @@
-import { render, fireEvent, waitFor } from '@testing-library/react';
-import mock$ from 'jquery';
+import { render, fireEvent } from '@testing-library/react';
 import { test, expect, vi } from 'vitest';
 import { act } from 'react-dom/test-utils';
 
 import Nav from '.';
 
-const mockTooltip = vi.fn().mockImplementation(param => {
-  // console.log('tooltip', param);
-});
-
-const mockCollapse = vi.fn().mockImplementation(param => {
-  // console.log('collapse', param);
-});
-
-vi.mock('jquery', () => {
-  return {
-    default: vi.fn().mockImplementation(param => {
-      if (typeof param === 'function') {
-        param();
-      }
-      return {
-        tooltip: mockTooltip,
-        collapse: mockCollapse,
-      };
-    }),
-  };
-});
-
 vi.mock('nanoid', () => {
   return {
-    nanoid: () => {
-      return 'fakeid';
-    },
+    nanoid: () => 'fakeid',
   };
 });
-
-const mockClipboardWriteTest = vi.fn();
 
 const mockTranslations = {
   newRoomButton: 'new room',
@@ -101,6 +74,7 @@ test('Nav component is displaying with another configuration and can rerender', 
 });
 
 test('Can copy room url', async () => {
+  const mockClipboardWriteTest = vi.fn();
   navigator.clipboard = { writeText: mockClipboardWriteTest };
 
   const toggleLockRoom = vi.fn();
@@ -193,8 +167,7 @@ test('Can lock/unlock room is room owner only', async () => {
   expect(queryByText('You must be the owner to lock or unlock the room')).not.toBeInTheDocument();
 });
 
-test('Can show user list', async () => {
-  // Test with one user owner and me
+test('Can show user list sidebar', async () => {
   const { getByTitle, getByText, queryByTitle, rerender } = render(
     <Nav
       members={[{ id: 'id1', username: 'alan', isOwner: true }]}
@@ -210,11 +183,13 @@ test('Can show user list', async () => {
 
   fireEvent.click(getByTitle('Users'));
 
-  await waitFor(() => expect(getByText('alan')).toBeInTheDocument());
-  await waitFor(() => expect(getByTitle('Owner')).toBeInTheDocument());
-  await waitFor(() => expect(getByTitle('Me')).toBeInTheDocument());
+  const rightSidebar = document.body.querySelector('.sidebar-right');
+  expect(rightSidebar).toHaveClass('sidebar-open');
+  expect(getByText('alan')).toBeInTheDocument();
+  expect(getByTitle('Owner')).toBeInTheDocument();
+  expect(getByTitle('Me')).toBeInTheDocument();
 
-  // Test with two user not owner, not me
+  // Test with two users, not owner, not me
   rerender(
     <Nav
       members={[
@@ -231,17 +206,37 @@ test('Can show user list', async () => {
     />,
   );
 
-  await waitFor(() => expect(getByText('alan')).toBeInTheDocument());
-  await waitFor(() => expect(getByText('dan')).toBeInTheDocument());
-
+  expect(getByText('alan')).toBeInTheDocument();
+  expect(getByText('dan')).toBeInTheDocument();
   expect(queryByTitle('Owner')).not.toBeInTheDocument();
   expect(queryByTitle('Me')).not.toBeInTheDocument();
+});
+
+test('Can open new room', async () => {
+  window.open = vi.fn();
+
+  const { getByText } = render(
+    <Nav
+      members={[]}
+      roomId={'testRoom'}
+      userId={'id1'}
+      roomLocked={false}
+      toggleLockRoom={() => {}}
+      openModal={() => {}}
+      iAmOwner={true}
+      translations={mockTranslations}
+    />,
+  );
+
+  fireEvent.click(getByText(mockTranslations.newRoomButton));
+
+  expect(window.open).toHaveBeenCalledTimes(1);
+  expect(window.open).toHaveBeenCalledWith(expect.stringMatching(/^\/[a-zA-Z0-9_-]+$/));
 });
 
 test('Can open settings', async () => {
   const openModal = vi.fn();
 
-  // Test with one user owner and me
   const { getByText } = render(
     <Nav
       members={[]}
@@ -257,15 +252,12 @@ test('Can open settings', async () => {
 
   fireEvent.click(getByText(mockTranslations.settingsButton));
 
-  expect(mock$).toHaveBeenLastCalledWith('.navbar-collapse');
-  expect(mockCollapse).toHaveBeenLastCalledWith('hide');
   expect(openModal).toHaveBeenLastCalledWith('Settings');
 });
 
 test('Can open About', async () => {
   const openModal = vi.fn();
 
-  // Test with one user owner and me
   const { getByText } = render(
     <Nav
       members={[]}
@@ -281,31 +273,5 @@ test('Can open About', async () => {
 
   fireEvent.click(getByText(mockTranslations.aboutButton));
 
-  expect(mock$).toHaveBeenLastCalledWith('.navbar-collapse');
-  expect(mockCollapse).toHaveBeenLastCalledWith('hide');
   expect(openModal).toHaveBeenLastCalledWith('About');
-});
-
-test('Can open About', async () => {
-  window.open = vi.fn();
-
-  // Test with one user owner and me
-  const { getByText } = render(
-    <Nav
-      members={[]}
-      roomId={'testRoom'}
-      userId={'id1'}
-      roomLocked={true}
-      toggleLockRoom={() => {}}
-      openModal={() => {}}
-      iAmOwner={true}
-      translations={mockTranslations}
-    />,
-  );
-
-  fireEvent.click(getByText(mockTranslations.newRoomButton));
-
-  expect(mock$).toHaveBeenLastCalledWith('.navbar-collapse');
-  expect(mockCollapse).toHaveBeenLastCalledWith('hide');
-  expect(window.open).toHaveBeenLastCalledWith('/fakeid');
 });
