@@ -1,7 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createRoot } from 'react-dom/client';
-import { nanoid } from 'nanoid';
+import { customAlphabet } from 'nanoid';
+
+const nanoidRoom = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 10);
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -20,7 +22,7 @@ store.subscribe(() => persistState(store));
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to={`/${nanoid()}`} replace />,
+    element: <Navigate to={`/${nanoidRoom()}`} replace />,
   },
   {
     path: '/:roomId',

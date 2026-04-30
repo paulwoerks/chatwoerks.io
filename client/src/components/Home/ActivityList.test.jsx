@@ -11,11 +11,24 @@ const store = configureStore();
 
 vi.useFakeTimers();
 
+const baseProps = {
+  members: [{ id: 'me', username: 'alice', publicKey: 'k' }],
+  userId: 'me',
+  currentUsername: 'alice',
+  roomId: 'testRoom',
+  roomLocked: false,
+  translations: {
+    anonymousEncryptedNotice: 'This chat room is 100% anonymous and encrypted.',
+    inviteLinkNotice: 'Invitation link for this chat room:',
+    copyButtonTooltip: 'Copied',
+  },
+};
+
 describe('ActivityList component', () => {
   it('should display', () => {
     const { asFragment } = render(
       <Provider store={store}>
-        <ActivityList openModal={vi.fn()} activities={[]} />
+        <ActivityList {...baseProps} activities={[]} />
       </Provider>,
     );
 
@@ -42,35 +55,35 @@ describe('ActivityList component', () => {
     ];
     const { asFragment } = render(
       <Provider store={store}>
-        <ActivityList openModal={vi.fn()} activities={activities} />
+        <ActivityList {...baseProps} activities={activities} />
       </Provider>,
     );
 
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('should show About modal', async () => {
-    const mockOpenModal = vi.fn();
+  it('should copy invitation link', async () => {
+    const mockClipboardWriteText = vi.fn();
+    navigator.clipboard = { writeText: mockClipboardWriteText };
 
     const { getByText } = render(
       <Provider store={store}>
-        <ActivityList openModal={mockOpenModal} activities={[]} />
+        <ActivityList {...baseProps} activities={[]} />
       </Provider>,
     );
 
-    await fireEvent.click(
-      getByText('By using Darkwire, you are agreeing to our Acceptable Use Policy and Terms of Service'),
-    );
-    await act(() => vi.runAllTimers());
+    await act(async () => {
+      await fireEvent.click(getByText(`http://localhost:3000/${baseProps.roomId}`));
+    });
 
-    expect(mockOpenModal.mock.calls[0][0]).toBe('About');
+    expect(mockClipboardWriteText).toHaveBeenLastCalledWith(`http://localhost:3000/${baseProps.roomId}`);
     await act(() => vi.runAllTimers());
   });
 
   it('should focus chat', async () => {
     const { getByTestId } = render(
       <Provider store={store}>
-        <ActivityList openModal={vi.fn()} activities={[]} />
+        <ActivityList {...baseProps} activities={[]} />
       </Provider>,
     );
 
@@ -89,14 +102,14 @@ describe('ActivityList component', () => {
 
     const { rerender, getByTestId } = render(
       <Provider store={store}>
-        <ActivityList openModal={vi.fn()} activities={[]} />
+        <ActivityList {...baseProps} activities={[]} />
       </Provider>,
     );
 
     rerender(
       <Provider store={store}>
         <ActivityList
-          openModal={vi.fn()}
+          {...baseProps}
           activities={[
             {
               type: 'TEXT_MESSAGE',
@@ -119,7 +132,7 @@ describe('ActivityList component', () => {
     rerender(
       <Provider store={store}>
         <ActivityList
-          openModal={vi.fn()}
+          {...baseProps}
           activities={[
             {
               type: 'TEXT_MESSAGE',

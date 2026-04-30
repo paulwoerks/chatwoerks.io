@@ -31,134 +31,103 @@ const FileDisplay = ({ activity: { fileType, encodedFile, fileName, username }, 
   return null;
 };
 
-const Activity = ({ activity, scrollToBottom }) => {
+const Activity = ({ activity, scrollToBottom, currentUsername }) => {
   switch (activity.type) {
     case 'TEXT_MESSAGE':
-      return <Message sender={activity.username} message={activity.text} timestamp={activity.timestamp} />;
+      return (
+        <Message
+          sender={activity.username}
+          message={activity.text}
+          timestamp={activity.timestamp}
+          isMine={activity.username === currentUsername}
+        />
+      );
     case 'USER_ENTER':
       return (
-        <Notice>
-          <div>
-            <T
-              data={{
-                username: <Username key={0} username={activity.username} />,
-              }}
-              path="userJoined"
-            />
-          </div>
+        <Notice level="info">
+          <T
+            data={{ username: <Username key={0} username={activity.username} /> }}
+            path="userJoined"
+          />
         </Notice>
       );
     case 'USER_EXIT':
       return (
-        <Notice>
-          <div>
-            <T
-              data={{
-                username: <Username key={0} username={activity.username} />,
-              }}
-              path="userLeft"
-            />
-          </div>
+        <Notice level="info">
+          <T
+            data={{ username: <Username key={0} username={activity.username} /> }}
+            path="userLeft"
+          />
         </Notice>
       );
     case 'TOGGLE_LOCK_ROOM':
-      if (activity.locked) {
-        return (
-          <Notice>
-            <div>
-              <T
-                data={{
-                  username: <Username key={0} username={activity.username} />,
-                }}
-                path="lockedRoom"
-              />
-            </div>
-          </Notice>
-        );
-      } else {
-        return (
-          <Notice>
-            <div>
-              <T
-                data={{
-                  username: <Username key={0} username={activity.username} />,
-                }}
-                path="unlockedRoom"
-              />
-            </div>
-          </Notice>
-        );
-      }
+      return (
+        <Notice level="info">
+          <T
+            data={{ username: <Username key={0} username={activity.username} /> }}
+            path={activity.locked ? 'lockedRoom' : 'unlockedRoom'}
+          />
+        </Notice>
+      );
     case 'NOTICE':
       return (
         <Notice>
-          <div>{activity.message}</div>
+          {activity.message}
         </Notice>
       );
     case 'CHANGE_USERNAME':
       return (
         <Notice>
-          <div>
-            <T
-              data={{
-                oldUsername: <Username key={0} username={activity.currentUsername} />,
-                newUsername: <Username key={1} username={activity.newUsername} />,
-              }}
-              path="nameChange"
-            />
-          </div>
+          <T
+            data={{
+              oldUsername: <Username key={0} username={activity.currentUsername} />,
+              newUsername: <Username key={1} username={activity.newUsername} />,
+            }}
+            path="nameChange"
+          />
         </Notice>
       );
     case 'USER_ACTION':
       return (
         <Notice>
-          <div>
-            &#42; <Username username={activity.username} /> {activity.action}
-          </div>
+          &#42; <Username username={activity.username} /> {activity.action}
         </Notice>
       );
-    case 'RECEIVE_FILE':
+    case 'RECEIVE_FILE': {
       const downloadUrl = getObjectUrl(activity.encodedFile, activity.fileType);
       return (
         <div>
           <T
-            data={{
-              username: <Username key={0} username={activity.username} />,
-            }}
+            data={{ username: <Username key={0} username={activity.username} /> }}
             path="userSentFile"
           />
           &nbsp;
           <a target="_blank" href={downloadUrl} rel="noopener noreferrer" download={activity.fileName}>
-            <T
-              data={{
-                filename: activity.fileName,
-              }}
-              path="downloadFile"
-            />
+            <T data={{ filename: activity.fileName }} path="downloadFile" />
           </a>
           <FileDisplay activity={activity} scrollToBottom={scrollToBottom} />
         </div>
       );
-    case 'SEND_FILE':
+    }
+    case 'SEND_FILE': {
       const url = getObjectUrl(activity.encodedFile, activity.fileType);
       return (
         <Notice>
-          <div>
-            <T
-              data={{
-                filename: (
-                  <a key={0} target="_blank" href={url} rel="noopener noreferrer" download={activity.fileName}>
-                    {activity.fileName}
-                  </a>
-                ),
-              }}
-              path="sentFile"
-            />
-            &nbsp;
-          </div>
+          <T
+            data={{
+              filename: (
+                <a key={0} target="_blank" href={url} rel="noopener noreferrer" download={activity.fileName}>
+                  {activity.fileName}
+                </a>
+              ),
+            }}
+            path="sentFile"
+          />
+          &nbsp;
           <FileDisplay activity={activity} scrollToBottom={scrollToBottom} />
         </Notice>
       );
+    }
     default:
       return false;
   }
@@ -167,6 +136,7 @@ const Activity = ({ activity, scrollToBottom }) => {
 Activity.propTypes = {
   activity: PropTypes.object.isRequired,
   scrollToBottom: PropTypes.func.isRequired,
+  currentUsername: PropTypes.string,
 };
 
 export default Activity;

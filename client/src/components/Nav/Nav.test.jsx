@@ -21,9 +21,7 @@ vi.useFakeTimers();
 test('Nav component is displaying', async () => {
   const { asFragment } = render(
     <Nav
-      members={[]}
       roomId={'testRoom'}
-      userId={'userId__'}
       roomLocked={false}
       toggleLockRoom={() => {}}
       openModal={() => {}}
@@ -38,12 +36,7 @@ test('Nav component is displaying', async () => {
 test('Nav component is displaying with another configuration and can rerender', async () => {
   const { asFragment, rerender } = render(
     <Nav
-      members={[
-        { id: 'id1', username: 'alan', isOwner: true },
-        { id: 'id2', username: 'dan', isOwner: false },
-      ]}
       roomId={'testRoom_2'}
-      userId={'userId_2'}
       roomLocked={true}
       toggleLockRoom={() => {}}
       openModal={() => {}}
@@ -56,12 +49,7 @@ test('Nav component is displaying with another configuration and can rerender', 
 
   rerender(
     <Nav
-      members={[
-        { id: 'id1', username: 'alan', isOwner: true },
-        { id: 'id2', username: 'dan', isOwner: false },
-      ]}
       roomId={'testRoom_3'}
-      userId={'userId_3'}
       roomLocked={true}
       toggleLockRoom={() => {}}
       openModal={() => {}}
@@ -81,12 +69,7 @@ test('Can copy room url', async () => {
 
   const { getByText, queryByText } = render(
     <Nav
-      members={[
-        { id: 'id1', username: 'alan', isOwner: true },
-        { id: 'id2', username: 'dan', isOwner: false },
-      ]}
       roomId={'testRoom'}
-      userId={'userId'}
       roomLocked={true}
       toggleLockRoom={toggleLockRoom}
       openModal={() => {}}
@@ -114,12 +97,7 @@ test('Can lock/unlock room is room owner only', async () => {
 
   const { rerender, getByTestId, getByText, queryByText } = render(
     <Nav
-      members={[
-        { id: 'id1', username: 'alan', isOwner: true },
-        { id: 'id2', username: 'dan', isOwner: false },
-      ]}
       roomId={'testRoom'}
-      userId={'userId'}
       roomLocked={true}
       toggleLockRoom={toggleLockRoom}
       openModal={() => {}}
@@ -141,12 +119,7 @@ test('Can lock/unlock room is room owner only', async () => {
   // We are not the room owner anymore
   rerender(
     <Nav
-      members={[
-        { id: 'id1', username: 'alan', isOwner: true },
-        { id: 'id2', username: 'dan', isOwner: false },
-      ]}
       roomId={'testRoom'}
-      userId={'userId'}
       roomLocked={true}
       toggleLockRoom={toggleLockRoom}
       openModal={() => {}}
@@ -167,59 +140,12 @@ test('Can lock/unlock room is room owner only', async () => {
   expect(queryByText('You must be the owner to lock or unlock the room')).not.toBeInTheDocument();
 });
 
-test('Can show user list sidebar', async () => {
-  const { getByTitle, getByText, queryByTitle, rerender } = render(
-    <Nav
-      members={[{ id: 'id1', username: 'alan', isOwner: true }]}
-      roomId={'testRoom'}
-      userId={'id1'}
-      roomLocked={true}
-      toggleLockRoom={() => {}}
-      openModal={() => {}}
-      iAmOwner={true}
-      translations={{}}
-    />,
-  );
-
-  fireEvent.click(getByTitle('Users'));
-
-  const rightSidebar = document.body.querySelector('.sidebar-right');
-  expect(rightSidebar).toHaveClass('sidebar-open');
-  expect(getByText('alan')).toBeInTheDocument();
-  expect(getByTitle('Owner')).toBeInTheDocument();
-  expect(getByTitle('Me')).toBeInTheDocument();
-
-  // Test with two users, not owner, not me
-  rerender(
-    <Nav
-      members={[
-        { id: 'id1', username: 'alan', isOwner: false },
-        { id: 'id2', username: 'dan', isOwner: false },
-      ]}
-      roomId={'testRoom'}
-      userId={'otherId'}
-      roomLocked={true}
-      toggleLockRoom={() => {}}
-      openModal={() => {}}
-      iAmOwner={true}
-      translations={{}}
-    />,
-  );
-
-  expect(getByText('alan')).toBeInTheDocument();
-  expect(getByText('dan')).toBeInTheDocument();
-  expect(queryByTitle('Owner')).not.toBeInTheDocument();
-  expect(queryByTitle('Me')).not.toBeInTheDocument();
-});
-
 test('Can open new room', async () => {
   window.open = vi.fn();
 
   const { getByText } = render(
     <Nav
-      members={[]}
       roomId={'testRoom'}
-      userId={'id1'}
       roomLocked={false}
       toggleLockRoom={() => {}}
       openModal={() => {}}
@@ -239,9 +165,7 @@ test('Can open settings', async () => {
 
   const { getByText } = render(
     <Nav
-      members={[]}
       roomId={'testRoom'}
-      userId={'id1'}
       roomLocked={true}
       toggleLockRoom={() => {}}
       openModal={openModal}
@@ -260,9 +184,7 @@ test('Can open About', async () => {
 
   const { getByText } = render(
     <Nav
-      members={[]}
       roomId={'testRoom'}
-      userId={'id1'}
       roomLocked={true}
       toggleLockRoom={() => {}}
       openModal={openModal}

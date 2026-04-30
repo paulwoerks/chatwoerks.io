@@ -74,11 +74,9 @@ exports[`About component > should display 1`] = `
       <p>
         Commit SHA: 
         <a
-          href="https://github.com/darkwire/darkwire.io/commit/some_sha"
+          href="https://github.com/darkwire/darkwire.io/commit/undefined"
           target="_blank"
-        >
-          some_sha
-        </a>
+        />
       </p>
     </section>
     <section

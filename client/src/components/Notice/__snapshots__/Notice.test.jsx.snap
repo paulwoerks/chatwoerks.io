@@ -2,13 +2,11 @@
 
 exports[`Notice component is displaying 1`] = `
 <DocumentFragment>
-  <div>
-    <div
-      class="warning"
-    >
-      <div>
-        Hello world
-      </div>
+  <div
+    class="_notice_ffcd92 _warning_ffcd92"
+  >
+    <div>
+      Hello world
     </div>
   </div>
 </DocumentFragment>

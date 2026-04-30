@@ -14,4 +14,4 @@ const mapDispatchToProps = {
   sendEncryptedMessage,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Chat);
+export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(Chat);

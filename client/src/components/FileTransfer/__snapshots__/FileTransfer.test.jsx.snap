@@ -17,7 +17,7 @@ exports[`FileTransfer tests > FileTransfer component is displaying 1`] = `
       <svg
         fill="none"
         height="24"
-        stroke="#fff"
+        stroke="#f8f8f2"
         stroke-linecap="round"
         stroke-linejoin="round"
         stroke-width="2"

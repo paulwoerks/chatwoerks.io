@@ -1,53 +1,38 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import { nanoid } from 'nanoid';
-import { Info, Settings, User, Lock, Unlock, Star, Menu, X, PlusCircle, Copy } from 'react-feather';
+import { customAlphabet } from 'nanoid';
+
+const nanoidRoom = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 10);
+import { Info, Settings, Lock, Unlock, Menu, X, PlusCircle, Copy } from 'react-feather';
 import { Tooltip } from 'react-tooltip';
 import { useSafeState } from '@react-hookz/web/esnext';
 
-import Username from '@/components/Username';
-
-const Nav = ({ members, roomId, userId, roomLocked, toggleLockRoom, openModal, iAmOwner, translations }) => {
+const Nav = ({ roomId, roomLocked, toggleLockRoom, openModal, iAmOwner, translations }) => {
   const [showCopyTooltip, setShowCopyTooltip] = useSafeState(false);
   const [showLockedTooltip, setShowLockedTooltip] = useSafeState(false);
   const [showSidebar, setShowSidebar] = useSafeState(false);
-  const [showUsersSidebar, setShowUsersSidebar] = useSafeState(false);
   const roomUrl = `${window.location.origin}/${roomId}`;
 
-  const liveColor = roomLocked ? '#dc3545' : '#28a745';
+  const lockColor = roomLocked ? 'var(--dracula-green)' : 'var(--dracula-pink)';
 
   useEffect(() => {
     document.body.classList.toggle('sidebar-left-open', showSidebar);
   }, [showSidebar]);
 
   useEffect(() => {
-    document.body.classList.toggle('sidebar-right-open', showUsersSidebar);
-  }, [showUsersSidebar]);
-
-  useEffect(() => {
     return () => {
-      document.body.classList.remove('sidebar-left-open', 'sidebar-right-open');
+      document.body.classList.remove('sidebar-left-open');
     };
   }, []);
 
   const toggleLeftSidebar = () => {
-    setShowSidebar(prev => {
-      if (!prev) setShowUsersSidebar(false);
-      return !prev;
-    });
-  };
-
-  const toggleRightSidebar = () => {
-    setShowUsersSidebar(prev => {
-      if (!prev) setShowSidebar(false);
-      return !prev;
-    });
+    setShowSidebar(prev => !prev);
   };
 
   const newRoom = () => {
     setShowSidebar(false);
-    window.open(`/${nanoid()}`);
+    window.open(`/${nanoidRoom()}`);
   };
 
   const handleSettingsClick = () => {
@@ -93,26 +78,6 @@ const Nav = ({ members, roomId, userId, roomLocked, toggleLockRoom, openModal, i
         </div>
 
         <div className="nav-center">
-          <span className="lock-room-container">
-            <button
-              id="lock-room-button"
-              data-testid="lock-room-button"
-              onClick={handleToggleLock}
-              className="lock-room btn btn-link btn-plain"
-            >
-              {roomLocked && <Lock />}
-              {!roomLocked && <Unlock className="muted" />}
-            </button>
-            {showLockedTooltip && (
-              <Tooltip
-                anchorId="lock-room-button"
-                content="You must be the owner to lock or unlock the room"
-                place="bottom"
-                events={[]}
-                isOpen={true}
-              />
-            )}
-          </span>
           <span className="room-label">room</span>
           <button
             id="copy-room-url-button"
@@ -140,16 +105,27 @@ const Nav = ({ members, roomId, userId, roomLocked, toggleLockRoom, openModal, i
         </div>
 
         <div className="nav-right">
-          <button
-            className="btn btn-link btn-plain live-indicator"
-            title="Users"
-            onClick={toggleRightSidebar}
-          >
-            <span className={`live-dot${roomLocked ? ' live-dot--locked' : ''}`} />
-            <span className="member-count" style={{ color: liveColor }}>
-              {members.length} online
-            </span>
-          </button>
+          <span className="lock-room-container">
+            <button
+              id="lock-room-button"
+              data-testid="lock-room-button"
+              onClick={handleToggleLock}
+              className="lock-room btn btn-link btn-plain"
+              style={{ color: lockColor }}
+              aria-label={roomLocked ? 'Unlock room' : 'Lock room'}
+            >
+              {roomLocked ? <Lock /> : <Unlock />}
+            </button>
+            {showLockedTooltip && (
+              <Tooltip
+                anchorId="lock-room-button"
+                content="You must be the owner to lock or unlock the room"
+                place="bottom"
+                events={[]}
+                isOpen={true}
+              />
+            )}
+          </span>
         </div>
       </nav>
 
@@ -184,49 +160,12 @@ const Nav = ({ members, roomId, userId, roomLocked, toggleLockRoom, openModal, i
         </div>,
         document.body
       )}
-
-      {createPortal(
-        <div className={`sidebar sidebar-right ${showUsersSidebar ? 'sidebar-open' : ''}`}>
-          <div className="sidebar-header">
-            <span className="sidebar-title">Online</span>
-            <button
-              className="btn btn-plain sidebar-close"
-              onClick={() => setShowUsersSidebar(false)}
-              aria-label="Close users"
-            >
-              <X />
-            </button>
-          </div>
-          <ul className="sidebar-users">
-            {members.map((member, index) => (
-              <li key={`user-${index}`}>
-                <Username username={member.username} />
-                <span className="icon-container">
-                  {member.id === userId && (
-                    <span className="me-icon-wrap" title="Me">
-                      <User className="me-icon" />
-                    </span>
-                  )}
-                  {member.isOwner && (
-                    <span className="owner-icon-wrap">
-                      <Star className="owner-icon" title="Owner" />
-                    </span>
-                  )}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>,
-        document.body
-      )}
     </>
   );
 };
 
 Nav.propTypes = {
-  members: PropTypes.array.isRequired,
   roomId: PropTypes.string.isRequired,
-  userId: PropTypes.string.isRequired,
   roomLocked: PropTypes.bool.isRequired,
   toggleLockRoom: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,

@@ -4,7 +4,7 @@ exports[`Username component is displaying 1`] = `
 <DocumentFragment>
   <span
     class="username"
-    style="color: rgb(157, 242, 249);"
+    style="color: rgb(255, 121, 198);"
   >
     paul
   </span>

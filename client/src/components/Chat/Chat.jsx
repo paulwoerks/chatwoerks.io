@@ -1,20 +1,51 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import sanitizeHtml from 'sanitize-html';
-import { CornerDownRight } from 'react-feather';
+import { Send } from 'react-feather';
 
 import { hasTouchSupport } from '@/utils/dom';
 
 import FileTransfer from '@/components/FileTransfer';
 
-export const Chat = ({ sendEncryptedMessage, showNotice, userId, username, clearActivities, translations }) => {
+const MAX_VISIBLE_LINES = 5;
+
+export const Chat = React.forwardRef(function Chat(
+  { sendEncryptedMessage, showNotice, userId, username, clearActivities, translations },
+  ref,
+) {
   const [message, setMessage] = React.useState('');
   const [shiftKeyDown, setShiftKeyDown] = React.useState(false);
   const textInputRef = React.useRef();
 
-  const touchSupport = hasTouchSupport;
-
   const canSend = message.trim().length;
+
+  React.useImperativeHandle(ref, () => ({
+    insertMention: mentionUsername => {
+      setMessage(prev => {
+        const needsLeadingSpace = prev.length > 0 && !/\s$/.test(prev);
+        return `${prev}${needsLeadingSpace ? ' ' : ''}@${mentionUsername} `;
+      });
+      textInputRef.current?.focus();
+    },
+  }));
+
+  const autoSize = React.useCallback(() => {
+    const node = textInputRef.current;
+    if (!node) return;
+    node.style.height = 'auto';
+    const styles = window.getComputedStyle(node);
+    const lineHeight = parseFloat(styles.lineHeight) || 20;
+    const paddingY = parseFloat(styles.paddingTop) + parseFloat(styles.paddingBottom);
+    const borderY = parseFloat(styles.borderTopWidth) + parseFloat(styles.borderBottomWidth);
+    const maxHeight = lineHeight * MAX_VISIBLE_LINES + paddingY + borderY;
+    const next = Math.min(node.scrollHeight, maxHeight);
+    node.style.height = `${next}px`;
+    node.style.overflowY = node.scrollHeight > maxHeight ? 'auto' : 'hidden';
+  }, []);
+
+  React.useLayoutEffect(() => {
+    autoSize();
+  }, [message, autoSize]);
 
   const commands = [
     {
@@ -204,6 +235,9 @@ export const Chat = ({ sendEncryptedMessage, showNotice, userId, username, clear
 
   return (
     <form onSubmit={handleFormSubmit} className="chat-preflight-container">
+      <div className="input-controls-left">
+        <FileTransfer sendEncryptedMessage={sendEncryptedMessage} />
+      </div>
       <textarea
         rows="1"
         onKeyUp={handleKeyUp}
@@ -216,20 +250,20 @@ export const Chat = ({ sendEncryptedMessage, showNotice, userId, username, clear
         onChange={handleInputChange}
       />
       <div className="input-controls">
-        <FileTransfer sendEncryptedMessage={sendEncryptedMessage} />
-        {touchSupport && (
-          <button
-            onClick={handleSendClick}
-            className={`icon is-right send btn btn-link ${canSend ? 'active' : ''}`}
-            title="Send"
-          >
-            <CornerDownRight className={canSend ? '' : 'disabled'} />
-          </button>
-        )}
+        <button
+          type="submit"
+          onClick={handleSendClick}
+          disabled={!canSend}
+          className={`icon is-right send btn btn-link ${canSend ? 'active' : ''}`}
+          title={translations.sendButton || 'Send'}
+          aria-label={translations.sendButton || 'Send'}
+        >
+          <Send className={canSend ? '' : 'disabled'} />
+        </button>
       </div>
     </form>
   );
-};
+});
 
 Chat.propTypes = {
   sendEncryptedMessage: PropTypes.func.isRequired,

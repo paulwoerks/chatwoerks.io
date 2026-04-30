@@ -5,12 +5,8 @@ exports[`Chat component > should display 1`] = `
   <form
     class="chat-preflight-container"
   >
-    <textarea
-      class="chat"
-      rows="1"
-    />
     <div
-      class="input-controls"
+      class="input-controls-left"
     >
       <div
         class="_styles_374fdd icon file-transfer btn btn-link"
@@ -27,7 +23,7 @@ exports[`Chat component > should display 1`] = `
           <svg
             fill="none"
             height="24"
-            stroke="#fff"
+            stroke="#f8f8f2"
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
@@ -44,6 +40,45 @@ exports[`Chat component > should display 1`] = `
           </svg>
         </label>
       </div>
+    </div>
+    <textarea
+      class="chat"
+      rows="1"
+      style="height: 0px; overflow-y: hidden;"
+    />
+    <div
+      class="input-controls"
+    >
+      <button
+        aria-label="Send"
+        class="icon is-right send btn btn-link "
+        disabled=""
+        title="Send"
+        type="submit"
+      >
+        <svg
+          class="disabled"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <line
+            x1="22"
+            x2="11"
+            y1="2"
+            y2="13"
+          />
+          <polygon
+            points="22 2 15 22 11 13 2 9 22 2"
+          />
+        </svg>
+      </button>
     </div>
   </form>
 </DocumentFragment>

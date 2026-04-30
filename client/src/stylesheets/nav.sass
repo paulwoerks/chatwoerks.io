@@ -22,9 +22,6 @@
 body.sidebar-left-open .nav-container
   left: 260px
 
-body.sidebar-right-open .nav-container
-  right: 260px
-
 nav
   border-bottom: 1px solid $inactive
 
@@ -97,14 +94,6 @@ button.lock-room
   &.sidebar-open
     transform: translateX(0)
 
-.sidebar-right
-  right: 0
-  left: auto
-  border-left: 1px solid $inactive
-  transform: translateX(100%)
-  &.sidebar-open
-    transform: translateX(0)
-
 .sidebar-header
   display: flex
   justify-content: space-between
@@ -155,28 +144,6 @@ button.lock-room
   &:hover
     color: $body
 
-// User list in right sidebar
-.sidebar-users
-  list-style: none
-  padding: 10px 0
-  margin: 0
-  li
-    display: flex
-    align-items: center
-    justify-content: space-between
-    padding: 8px 20px
-    .username
-      overflow: hidden
-      text-overflow: ellipsis
-      white-space: nowrap
-      max-width: 160px
-    .icon-container
-      display: flex
-      gap: 4px
-      flex-shrink: 0
-    .me-icon, .owner-icon
-      width: 15px
-
 // Pulsing live dot
 @keyframes livePulse
   0%
@@ -205,14 +172,6 @@ button.lock-room
   &.live-dot--locked
     background: #dc3545
     animation: livePulseLocked 2s infinite
-
-.live-indicator
-  display: flex
-  align-items: center
-  gap: 6px
-  color: $md-gray
-  &:hover
-    color: $body
 
 .member-count
   font-size: 14px

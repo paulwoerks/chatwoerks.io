@@ -1,0 +1,39 @@
+.mine {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  max-width: 70%;
+  margin-left: auto;
+}
+
+.theirs {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 70%;
+}
+
+.metaMine {
+  flex-direction: row-reverse;
+  gap: 8px;
+}
+
+.bubble {
+  border-radius: 12px;
+  padding: 8px 12px;
+  margin-top: 4px;
+  word-break: break-word;
+  white-space: pre-line;
+}
+
+.bubbleMine {
+  background-color: var(--dracula-purple);
+  color: var(--dracula-fg);
+  border-bottom-right-radius: 4px;
+}
+
+.bubbleTheirs {
+  background-color: var(--dracula-current-line);
+  color: var(--dracula-fg);
+  border-bottom-left-radius: 4px;
+}

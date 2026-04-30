@@ -2,24 +2,26 @@
 
 exports[`Message component is displaying 1`] = `
 <DocumentFragment>
-  <div>
+  <div
+    class="_theirs_860ff2"
+  >
     <div
-      class="chat-meta"
+      class="chat-meta "
     >
       <span
         class="username"
-        style="color: rgb(131, 239, 135);"
+        style="color: rgb(139, 233, 253);"
       >
         linus
       </span>
       <span
         class="muted timestamp"
       >
-        7:44 PM
+        9:44 PM
       </span>
     </div>
     <div
-      class="chat"
+      class="chat _bubble_860ff2 _bubbleTheirs_860ff2"
     >
       we come in peace
     </div>

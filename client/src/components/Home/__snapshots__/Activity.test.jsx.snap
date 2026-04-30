@@ -4,42 +4,34 @@ exports[`Activity component > should display 1`] = `<DocumentFragment />`;
 
 exports[`Activity component > should display CHANGE_USERNAME 1`] = `
 <DocumentFragment>
-  <div>
-    <div
-      class="info"
-    >
-      <div>
-        <span>
-          <span
-            class="username"
-            style="color: rgb(204, 241, 255);"
-          >
-            alice
-          </span>
-           changed their name to 
-          <span
-            class="username"
-            style="color: rgb(235, 162, 242);"
-          >
-            alicette
-          </span>
-        </span>
-      </div>
-    </div>
+  <div
+    class="_notice_ffcd92 _info_ffcd92"
+  >
+    <span>
+      <span
+        class="username"
+        style="color: rgb(241, 250, 140);"
+      >
+        alice
+      </span>
+       changed their name to 
+      <span
+        class="username"
+        style="color: rgb(80, 250, 123);"
+      >
+        alicette
+      </span>
+    </span>
   </div>
 </DocumentFragment>
 `;
 
 exports[`Activity component > should display NOTICE 1`] = `
 <DocumentFragment>
-  <div>
-    <div
-      class="info"
-    >
-      <div>
-        Hello world!
-      </div>
-    </div>
+  <div
+    class="_notice_ffcd92 _info_ffcd92"
+  >
+    Hello world!
   </div>
 </DocumentFragment>
 `;
@@ -50,7 +42,7 @@ exports[`Activity component > should display RECEIVE_FILE 1`] = `
     <span>
       <span
         class="username"
-        style="color: rgb(204, 241, 255);"
+        style="color: rgb(241, 250, 140);"
       >
         alice
       </span>
@@ -77,7 +69,7 @@ exports[`Activity component > should display RECEIVE_FILE with image 1`] = `
     <span>
       <span
         class="username"
-        style="color: rgb(204, 241, 255);"
+        style="color: rgb(241, 250, 140);"
       >
         alice
       </span>
@@ -105,49 +97,47 @@ exports[`Activity component > should display RECEIVE_FILE with image 1`] = `
 
 exports[`Activity component > should display SEND_FILE 1`] = `
 <DocumentFragment>
-  <div>
-    <div
-      class="info"
-    >
-      <div>
-        <span>
-          You sent 
-          <a
-            download="alice.pdf"
-            href="url:[object Blob]"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            alice.pdf
-          </a>
-        </span>
-         
-      </div>
-    </div>
+  <div
+    class="_notice_ffcd92 _info_ffcd92"
+  >
+    <span>
+      You sent 
+      <a
+        download="alice.pdf"
+        href="url:[object Blob]"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        alice.pdf
+      </a>
+    </span>
+     
   </div>
 </DocumentFragment>
 `;
 
 exports[`Activity component > should display TEXT_MESSAGE 1`] = `
 <DocumentFragment>
-  <div>
+  <div
+    class="_theirs_860ff2"
+  >
     <div
-      class="chat-meta"
+      class="chat-meta "
     >
       <span
         class="username"
-        style="color: rgb(204, 241, 255);"
+        style="color: rgb(241, 250, 140);"
       >
         alice
       </span>
       <span
         class="muted timestamp"
       >
-        11:01 AM
+        12:01 PM
       </span>
     </div>
     <div
-      class="chat"
+      class="chat _bubble_860ff2 _bubbleTheirs_860ff2"
     >
       Hi!
     </div>
@@ -157,109 +147,89 @@ exports[`Activity component > should display TEXT_MESSAGE 1`] = `
 
 exports[`Activity component > should display TOGGLE_LOCK_ROOM 1`] = `
 <DocumentFragment>
-  <div>
-    <div
-      class="info"
-    >
-      <div>
-        <span>
-          <span
-            class="username"
-            style="color: rgb(204, 241, 255);"
-          >
-            alice
-          </span>
-           locked the room
-        </span>
-      </div>
-    </div>
+  <div
+    class="_notice_ffcd92 _info_ffcd92"
+  >
+    <span>
+      <span
+        class="username"
+        style="color: rgb(241, 250, 140);"
+      >
+        alice
+      </span>
+       locked the room
+    </span>
   </div>
 </DocumentFragment>
 `;
 
 exports[`Activity component > should display TOGGLE_LOCK_ROOM 2`] = `
 <DocumentFragment>
-  <div>
-    <div
-      class="info"
-    >
-      <div>
-        <span>
-          <span
-            class="username"
-            style="color: rgb(204, 241, 255);"
-          >
-            alice
-          </span>
-           unlocked the room
-        </span>
-      </div>
-    </div>
+  <div
+    class="_notice_ffcd92 _info_ffcd92"
+  >
+    <span>
+      <span
+        class="username"
+        style="color: rgb(241, 250, 140);"
+      >
+        alice
+      </span>
+       unlocked the room
+    </span>
   </div>
 </DocumentFragment>
 `;
 
 exports[`Activity component > should display USER_ACTION 1`] = `
 <DocumentFragment>
-  <div>
-    <div
-      class="info"
+  <div
+    class="_notice_ffcd92 _info_ffcd92"
+  >
+    * 
+    <span
+      class="username"
+      style="color: rgb(241, 250, 140);"
     >
-      <div>
-        * 
-        <span
-          class="username"
-          style="color: rgb(204, 241, 255);"
-        >
-          alice
-        </span>
-         did right!
-      </div>
-    </div>
+      alice
+    </span>
+     did right!
   </div>
 </DocumentFragment>
 `;
 
 exports[`Activity component > should display USER_ENTER 1`] = `
 <DocumentFragment>
-  <div>
-    <div
-      class="info"
-    >
-      <div>
-        <span>
-          <span
-            class="username"
-            style="color: rgb(204, 241, 255);"
-          >
-            alice
-          </span>
-           joined
-        </span>
-      </div>
-    </div>
+  <div
+    class="_notice_ffcd92 _info_ffcd92"
+  >
+    <span>
+      <span
+        class="username"
+        style="color: rgb(241, 250, 140);"
+      >
+        alice
+      </span>
+       joined
+    </span>
   </div>
 </DocumentFragment>
 `;
 
 exports[`Activity component > should display USER_EXIT 1`] = `
 <DocumentFragment>
-  <div>
-    <div
-      class="info"
-    >
-      <div>
-        <span>
-          <span
-            class="username"
-            style="color: rgb(204, 241, 255);"
-          >
-            alice
-          </span>
-           left
-        </span>
-      </div>
-    </div>
+  <div
+    class="_notice_ffcd92 _info_ffcd92"
+  >
+    <span>
+      <span
+        class="username"
+        style="color: rgb(241, 250, 140);"
+      >
+        alice
+      </span>
+       left
+    </span>
   </div>
 </DocumentFragment>
 `;

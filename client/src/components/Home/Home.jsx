@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 import PropTypes from 'prop-types';
-import { nanoid } from 'nanoid';
+import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
+
+const generateUsername = () =>
+  uniqueNamesGenerator({ dictionaries: [adjectives, animals], style: 'capital', separator: ' ' });
 import { X, AlertCircle } from 'react-feather';
 import classNames from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,7 +17,6 @@ import Nav from '@/components/Nav';
 import Connecting from '@/components/Connecting';
 import About from '@/components/About';
 import Settings from '@/components/Settings';
-import Welcome from '@/components/Welcome';
 import RoomLocked from '@/components/RoomLocked';
 
 import ActivityList from './ActivityList';
@@ -73,11 +75,6 @@ const Modal = ({
             />
           ),
           title: translations.settingsHeader,
-        };
-      case 'Welcome':
-        return {
-          component: <Welcome roomId={roomId} close={closeModal} translations={translations} />,
-          title: translations.welcomeHeader,
         };
       case 'Room Locked':
         return {
@@ -208,9 +205,6 @@ const Home = ({
         type: 'ADD_USER',
         payload: socketPayloadRef.current,
       });
-      if (payload.users.length === 1) {
-        openModal('Welcome');
-      }
     });
 
     socket.on('USER_EXIT', payload => {
@@ -261,17 +255,23 @@ const Home = ({
           </div>
         )}
         <Nav
-          members={members}
           roomId={roomId}
           roomLocked={roomLocked}
           toggleLockRoom={() => sendUnencryptedMessage('TOGGLE_LOCK_ROOM')}
           openModal={openModal}
           iAmOwner={iAmOwner}
-          userId={userId}
           translations={translations}
         />
       </div>
-      <ActivityList openModal={openModal} activities={activities} />
+      <ActivityList
+        activities={activities}
+        members={members}
+        userId={userId}
+        currentUsername={username}
+        roomId={roomId}
+        roomLocked={roomLocked}
+        translations={translations}
+      />
       <Modal
         closeModal={closeModal}
         modalComponent={modalComponent}
@@ -303,7 +303,7 @@ export const WithUser = ({ ...rest }) => {
     let mounted = true;
 
     const createUserLocal = async () => {
-      const localUsername = user.username || nanoid();
+      const localUsername = user.username || generateUsername();
 
       const encryptDecryptKeys = await crypto.createEncryptDecryptKeys();
       const exportedEncryptDecryptPrivateKey = await crypto.exportKey(encryptDecryptKeys.privateKey);

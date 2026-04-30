@@ -1,10 +1,85 @@
-.info {
-  color: var(--dracula-cyan);
+.notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  opacity: 0.8;
+  padding: 2px 0;
 }
+
+.notice::before,
+.notice::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid currentColor;
+  opacity: 0.4;
+}
+
+.quote {
+  display: block;
+  border-left: 3px solid currentColor;
+  padding: 8px 12px;
+  margin: 8px 0;
+  font-size: 13px;
+  font-style: italic;
+  opacity: 0.9;
+  background: rgba(98, 114, 164, 0.08);
+  border-radius: 0 4px 4px 0;
+}
+
+.quote::before,
+.quote::after {
+  content: none;
+}
+
+.inviteRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-style: normal;
+}
+
+.inviteLink {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--dracula-cyan);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  text-align: left;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.inviteCopy {
+  display: flex;
+  align-items: center;
+  color: var(--dracula-comment);
+  background: transparent;
+  border: 0;
+  padding: 2px;
+}
+
+.inviteCopy:hover {
+  color: var(--dracula-fg);
+}
+
+.info {
+  color: var(--dracula-comment);
+}
+
 .warning {
   color: var(--dracula-yellow);
 }
 
 .danger {
-  color: var(--dracula-orange);
+  color: var(--dracula-red);
+}
+
+.success {
+  color: var(--dracula-green);
 }

@@ -13,31 +13,108 @@ exports[`ActivityList component > should display 1`] = `
         class="plain"
       >
         <li>
-          <p
-            class="_tos_0b54d3"
+          <div
+            class="_quote_ffcd92 _info_ffcd92"
           >
-            <button
-              class="btn btn-link"
-            >
-               By using Darkwire, you are agreeing to our Acceptable Use Policy and Terms of Service
-            </button>
-          </p>
+            <div>
+              <div>
+                This chat room is 100% anonymous and encrypted.
+              </div>
+              <div
+                class="_inviteRow_0b54d3"
+              >
+                <span>
+                  Invitation link for this chat room:
+                </span>
+                <button
+                  class="_inviteLink_0b54d3"
+                  id="invite-link-button"
+                  type="button"
+                >
+                  http://localhost:3000/testRoom
+                </button>
+                <button
+                  aria-label="Copy invitation link"
+                  class="_inviteCopy_0b54d3"
+                  type="button"
+                >
+                  <svg
+                    fill="none"
+                    height="14"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="14"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      height="13"
+                      rx="2"
+                      ry="2"
+                      width="13"
+                      x="9"
+                      y="9"
+                    />
+                    <path
+                      d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
         </li>
       </ul>
     </div>
     <div
       class="chat-container"
     >
+      <div
+        class="presence-bar"
+      >
+        <span
+          class="presence-count"
+        >
+          <span
+            class="live-dot"
+          />
+          <span
+            class="member-count"
+          >
+            1
+          </span>
+        </span>
+        <ul
+          class="presence-users"
+        >
+          <li>
+            <button
+              class="btn btn-plain presence-user"
+              title="@alice"
+              type="button"
+            >
+              <span
+                class="username"
+                style="color: rgb(241, 250, 140);"
+              >
+                alice
+              </span>
+              <span
+                class="presence-me"
+              >
+                (me)
+              </span>
+            </button>
+          </li>
+        </ul>
+      </div>
       <form
         class="chat-preflight-container"
       >
-        <textarea
-          class="chat"
-          placeholder="Type here"
-          rows="1"
-        />
         <div
-          class="input-controls"
+          class="input-controls-left"
         >
           <div
             class="_styles_374fdd icon file-transfer btn btn-link"
@@ -54,7 +131,7 @@ exports[`ActivityList component > should display 1`] = `
               <svg
                 fill="none"
                 height="24"
-                stroke="#fff"
+                stroke="#f8f8f2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
@@ -71,6 +148,46 @@ exports[`ActivityList component > should display 1`] = `
               </svg>
             </label>
           </div>
+        </div>
+        <textarea
+          class="chat"
+          placeholder="Type here"
+          rows="1"
+          style="height: 0px; overflow-y: hidden;"
+        />
+        <div
+          class="input-controls"
+        >
+          <button
+            aria-label="Send"
+            class="icon is-right send btn btn-link "
+            disabled=""
+            title="Send"
+            type="submit"
+          >
+            <svg
+              class="disabled"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <line
+                x1="22"
+                x2="11"
+                y1="2"
+                y2="13"
+              />
+              <polygon
+                points="22 2 15 22 11 13 2 9 22 2"
+              />
+            </svg>
+          </button>
         </div>
       </form>
     </div>
@@ -91,37 +208,82 @@ exports[`ActivityList component > should display with activities 1`] = `
         class="plain"
       >
         <li>
-          <p
-            class="_tos_0b54d3"
+          <div
+            class="_quote_ffcd92 _info_ffcd92"
           >
-            <button
-              class="btn btn-link"
-            >
-               By using Darkwire, you are agreeing to our Acceptable Use Policy and Terms of Service
-            </button>
-          </p>
+            <div>
+              <div>
+                This chat room is 100% anonymous and encrypted.
+              </div>
+              <div
+                class="_inviteRow_0b54d3"
+              >
+                <span>
+                  Invitation link for this chat room:
+                </span>
+                <button
+                  class="_inviteLink_0b54d3"
+                  id="invite-link-button"
+                  type="button"
+                >
+                  http://localhost:3000/testRoom
+                </button>
+                <button
+                  aria-label="Copy invitation link"
+                  class="_inviteCopy_0b54d3"
+                  type="button"
+                >
+                  <svg
+                    fill="none"
+                    height="14"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="14"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      height="13"
+                      rx="2"
+                      ry="2"
+                      width="13"
+                      x="9"
+                      y="9"
+                    />
+                    <path
+                      d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
         </li>
         <li
           class="activity-item TEXT_MESSAGE"
         >
-          <div>
+          <div
+            class="_mine_860ff2"
+          >
             <div
-              class="chat-meta"
+              class="chat-meta _metaMine_860ff2"
             >
-              <span
-                class="username"
-                style="color: rgb(204, 241, 255);"
-              >
-                alice
-              </span>
               <span
                 class="muted timestamp"
               >
-                11:01 AM
+                12:01 PM
+              </span>
+              <span
+                class="username"
+                style="color: rgb(241, 250, 140);"
+              >
+                alice
               </span>
             </div>
             <div
-              class="chat"
+              class="chat _bubble_860ff2 _bubbleMine_860ff2"
             >
               Hi!
             </div>
@@ -130,49 +292,41 @@ exports[`ActivityList component > should display with activities 1`] = `
         <li
           class="activity-item USER_ENTER"
         >
-          <div>
-            <div
-              class="info"
-            >
-              <div>
-                <span>
-                  <span
-                    class="username"
-                    style="color: rgb(204, 241, 255);"
-                  >
-                    alice
-                  </span>
-                   joined
-                </span>
-              </div>
-            </div>
+          <div
+            class="_notice_ffcd92 _info_ffcd92"
+          >
+            <span>
+              <span
+                class="username"
+                style="color: rgb(241, 250, 140);"
+              >
+                alice
+              </span>
+               joined
+            </span>
           </div>
         </li>
         <li
           class="activity-item CHANGE_USERNAME"
         >
-          <div>
-            <div
-              class="info"
-            >
-              <div>
-                <span>
-                  <span
-                    class="username"
-                    style="color: rgb(204, 241, 255);"
-                  >
-                    alice
-                  </span>
-                   changed their name to 
-                  <span
-                    class="username"
-                    style="color: rgb(235, 162, 242);"
-                  >
-                    alicette
-                  </span>
-                </span>
-              </div>
-            </div>
+          <div
+            class="_notice_ffcd92 _info_ffcd92"
+          >
+            <span>
+              <span
+                class="username"
+                style="color: rgb(241, 250, 140);"
+              >
+                alice
+              </span>
+               changed their name to 
+              <span
+                class="username"
+                style="color: rgb(80, 250, 123);"
+              >
+                alicette
+              </span>
+            </span>
           </div>
         </li>
       </ul>
@@ -180,16 +334,50 @@ exports[`ActivityList component > should display with activities 1`] = `
     <div
       class="chat-container"
     >
+      <div
+        class="presence-bar"
+      >
+        <span
+          class="presence-count"
+        >
+          <span
+            class="live-dot"
+          />
+          <span
+            class="member-count"
+          >
+            1
+          </span>
+        </span>
+        <ul
+          class="presence-users"
+        >
+          <li>
+            <button
+              class="btn btn-plain presence-user"
+              title="@alice"
+              type="button"
+            >
+              <span
+                class="username"
+                style="color: rgb(241, 250, 140);"
+              >
+                alice
+              </span>
+              <span
+                class="presence-me"
+              >
+                (me)
+              </span>
+            </button>
+          </li>
+        </ul>
+      </div>
       <form
         class="chat-preflight-container"
       >
-        <textarea
-          class="chat"
-          placeholder="Type here"
-          rows="1"
-        />
         <div
-          class="input-controls"
+          class="input-controls-left"
         >
           <div
             class="_styles_374fdd icon file-transfer btn btn-link"
@@ -206,7 +394,7 @@ exports[`ActivityList component > should display with activities 1`] = `
               <svg
                 fill="none"
                 height="24"
-                stroke="#fff"
+                stroke="#f8f8f2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
@@ -223,6 +411,46 @@ exports[`ActivityList component > should display with activities 1`] = `
               </svg>
             </label>
           </div>
+        </div>
+        <textarea
+          class="chat"
+          placeholder="Type here"
+          rows="1"
+          style="height: 0px; overflow-y: hidden;"
+        />
+        <div
+          class="input-controls"
+        >
+          <button
+            aria-label="Send"
+            class="icon is-right send btn btn-link "
+            disabled=""
+            title="Send"
+            type="submit"
+          >
+            <svg
+              class="disabled"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <line
+                x1="22"
+                x2="11"
+                y1="2"
+                y2="13"
+              />
+              <polygon
+                points="22 2 15 22 11 13 2 9 22 2"
+              />
+            </svg>
+          </button>
         </div>
       </form>
     </div>
